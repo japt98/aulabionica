@@ -6,23 +6,19 @@ import Layout from '../Layout';
 import SubMenu from '../SubMenu';
 import {ILink} from '../../types';
 
-interface ISubmenuProfesor {
-  navigation: NavigationProp<ParamListBase, 'submenu-profesor'>;
-}
-
-const SubmenuProfesor: FunctionComponent<ISubmenuProfesor> = ({navigation}) => {
+const SubmenuProfesor: FunctionComponent = () => {
   const links: ILink[] = [
     {
       route: 'control-admin',
       title: 'Control del Robot',
     },
     {
-      route: 'control-admin',
-      title: 'Configuración de Módulos',
+      route: 'nueva-rutina',
+      title: 'Nueva Rutina',
     },
     {
-      route: 'control-admin',
-      title: 'Cambio de Clave',
+      route: 'rutinas-guardadas',
+      title: 'Rutinas Guardadas',
     },
   ];
 
@@ -43,15 +39,3 @@ const SubmenuProfesor: FunctionComponent<ISubmenuProfesor> = ({navigation}) => {
 };
 
 export default SubmenuProfesor;
-
-const nivel = {};
-
-type Rutina = Movimiento[];
-
-interface Movimiento {
-  motor1: number; // 0 - 180 grados
-  motor2: number; // 0 - 180 grados
-  motor3: number; // 0 - 180 grados
-  motor4: number; // 0 - 180 grados
-  velocidad: number; // 0 - 100 (%)
-}

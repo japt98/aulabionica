@@ -18,11 +18,9 @@ export const globalReducer = (
     case 'SET_CONECTADO':
       return {...state, conectado: action.payload};
     case 'SET_RUTINA':
-      return {...state, rutina: action.payload};
-    case 'CLEAR_RUTINA':
-      return {...state, rutina: null};
-    case 'SET_LOGIN':
-      return {...state, logged: action.payload};
+      return {...state, rutinas: [...state.rutinas, action.payload]};
+    case 'CARGAR_RUTINAS':
+      return {...state, rutinas: action.payload};
     default:
       return state;
   }

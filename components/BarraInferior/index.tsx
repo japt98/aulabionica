@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useContext, useState} from 'react';
+import React, {FunctionComponent, useContext, useEffect} from 'react';
 import {
   Alert,
   Image,
@@ -34,7 +34,7 @@ const BarraInferior: FunctionComponent = () => {
 
   const isMenu = route.name === 'menu';
   const {state} = useContext(GlobalContext);
-  const {conectado} = state;
+  const {conectado, error} = state;
 
   const handleConexion = () => {
     if (conectado) {
@@ -45,6 +45,26 @@ const BarraInferior: FunctionComponent = () => {
       // setConectado(true); // TODO: solo por ahora
     }
   };
+
+  const showError = () => {
+    if (error) {
+      Alert.alert(
+        'Error',
+        error,
+        [
+          {
+            text: 'Entendido',
+            style: 'default',
+          },
+        ],
+        {cancelable: false},
+      );
+    }
+  };
+
+  useEffect(() => {
+    showError();
+  }, [error]);
 
   return (
     <View style={s.container}>
@@ -78,10 +98,14 @@ const BarraInferior: FunctionComponent = () => {
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={parar}>
+      <TouchableOpacity onPress={showError} disabled={!error}>
         <IconWithLabel
-          icon={require('../../assets/triangle-exclamation.png')}
-          label="Parada"
+          icon={
+            error
+              ? require('../../assets/triangle-exclamation-solid.png')
+              : require('../../assets/triangle-exclamation.png')
+          }
+          label={error ? 'Error' : 'Sin errores'}
         />
       </TouchableOpacity>
     </View>
@@ -89,46 +113,3 @@ const BarraInferior: FunctionComponent = () => {
 };
 
 export default BarraInferior;
-
-// TODO: Hacer q esto venga de la API de conexion
-// function desconectar() {
-//   Alert.alert(
-//     'Confirmar desconexión', // Título
-//     '¿Estás seguro de que quieres desconectar?', // Mensaje
-//     [
-//       {
-//         text: 'Cancelar',
-//         onPress: () => console.log('Cancelado'),
-//         style: 'cancel',
-//       },
-//       {
-//         text: 'Desconectar',
-//         onPress: () => {
-//           // TODO: define this
-//           console.log('Desconectado');
-//         },
-//       },
-//     ],
-//     {cancelable: true}, // Esta opción evita que se cierre la alerta al tocar fuera de ella
-//   );
-// }
-
-// TODO: Hacer q esto venga de la API de conexion
-function parar() {
-  Alert.alert(
-    'Confirmar Parada de Emergencia', // Título
-    '¿Estás seguro de que quieres detener el sistema?', // Mensaje
-    [
-      {
-        text: 'Cancelar',
-        onPress: () => console.log('Cancelado'),
-        style: 'cancel',
-      },
-      {
-        text: 'Parar',
-        onPress: () => console.log('Parar'),
-      },
-    ],
-    {cancelable: true}, // Esta opción evita que se cierre la alerta al tocar fuera de ella
-  );
-}
