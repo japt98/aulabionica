@@ -11,15 +11,13 @@ import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import s from './styles';
 import Layout from '../Layout';
 import {Coordenada, coordenadas, getRandomCoordinateValue} from './coordenadas';
-import {GlobalContext} from '../../context/global';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface ILoginProfesor {
   navigation: NavigationProp<ParamListBase, 'submenu-profesor'>;
 }
 
 const LoginProfesor: FunctionComponent<ILoginProfesor> = ({navigation}) => {
-  const {dispatch} = useContext(GlobalContext);
-
   const [coordenadaIngresada, setCoordenadaIngresada] = useState('');
   const [show, setShow] = useState(false);
   const [coordenada, setCoordenada] = useState<Coordenada>({
@@ -32,12 +30,12 @@ const LoginProfesor: FunctionComponent<ILoginProfesor> = ({navigation}) => {
     setCoordenada(getRandomCoordinateValue());
   }, []);
 
-  const verificarCoordenada = () => {
+  const verificarCoordenada = async () => {
     const expected = coordenadas[col][row];
     if (expected === coordenadaIngresada) {
-      dispatch({type: 'SET_LOGIN', payload: true});
+      await AsyncStorage.setItem('session_profesor', `${new Date().getTime()}`);
       Alert.alert('Acceso concedido', 'Bienvenido al panel de administración.');
-      navigation.navigate('control-admin');
+      navigation.navigate('submenu-profesor');
     } else {
       Alert.alert('Acceso denegado', 'La clave ingresada es incorrecta.');
     }

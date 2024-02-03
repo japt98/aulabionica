@@ -33,8 +33,7 @@ export interface IGlobalState {
   error: string | null;
   data: Data | null;
   movimiento: Movimiento | null;
-  rutina: Rutina | null;
-  logged: boolean;
+  rutinas: Rutina[];
 }
 
 export type Action =
@@ -45,8 +44,8 @@ export type Action =
   | {type: 'SET_ERROR'; payload: string}
   | {type: 'SET_CONECTADO'; payload: boolean}
   | {type: 'SET_RUTINA'; payload: Rutina}
-  | {type: 'CLEAR_RUTINA'}
-  | {type: 'SET_LOGIN'; payload: boolean};
+  | {type: 'CARGAR_RUTINAS'; payload: Rutina[]}
+  | {type: 'CLEAR_SOCKET'};
 
 export interface GlobalContextType {
   state: IGlobalState;

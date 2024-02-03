@@ -1,9 +1,11 @@
 import React, {FunctionComponent, useContext} from 'react';
 import {Image, TouchableOpacity, Text, View} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import s from './styles';
 import Layout from '../Layout';
 import {GlobalContext} from '../../context/global';
+import {TIEMPO_DE_LA_SESION} from '../LoginProfesor/coordenadas';
 
 interface IMenuPrincipal {
   navigation: NavigationProp<ParamListBase, 'menu-principal'>;
@@ -11,13 +13,21 @@ interface IMenuPrincipal {
 
 const MenuPrincipal: FunctionComponent<IMenuPrincipal> = ({navigation}) => {
   const {
-    state: {conectado, error, logged},
+    state: {conectado, error},
   } = useContext(GlobalContext);
 
   const toggle = () => {
     if (!conectado) {
       navigation.navigate('menu-conexion');
     }
+  };
+
+  const handlePress = async () => {
+    const sessionItem = await AsyncStorage.getItem('session_profesor');
+    const valido =
+      sessionItem &&
+      new Date().getTime() - Number(sessionItem) < TIEMPO_DE_LA_SESION;
+    navigation.navigate(valido ? 'submenu-profesor' : 'login-profesor');
   };
 
   return (
@@ -51,11 +61,7 @@ const MenuPrincipal: FunctionComponent<IMenuPrincipal> = ({navigation}) => {
           {error && <Text style={s.error}>{error}</Text>}
           <Text style={s.texto}>Elija el modo de acceso:</Text>
           <View style={s.menuSeleccion}>
-            <TouchableOpacity
-              style={s.item}
-              onPress={() =>
-                navigation.navigate(logged ? 'control-admin' : 'login-profesor')
-              }>
+            <TouchableOpacity style={s.item} onPress={handlePress}>
               <Image
                 style={s.itemImage}
                 source={require(`../../assets/user-graduate.png`)}
