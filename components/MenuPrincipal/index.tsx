@@ -69,7 +69,9 @@ const MenuPrincipal: FunctionComponent<IMenuPrincipal> = ({navigation}) => {
               />
               <Text style={s.texto}>Profesor</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={s.item}>
+            <TouchableOpacity
+              style={s.item}
+              onPress={() => navigation.navigate('submenu-niveles')}>
               <Image
                 style={s.itemImage}
                 source={require(`../../assets/user.png`)}

@@ -10,15 +10,31 @@ import LoginProfesor from './components/LoginProfesor';
 import NuevaRutina from './components/NuevaRutina';
 import RutinasGuardadas from './components/RutinasGuardadas';
 import EjecutarRutina from './components/EjecutarRutina';
+import Teoria from './components/niveles/Teoria';
+import SubmenuNiveles from './components/SubmenuNiveles';
+import {Calificacion, Nivel} from './components/niveles';
 
-const Stack = createNativeStackNavigator();
+export type ParamList = {
+  'menu-conexion': undefined;
+  menu: undefined;
+  'control-admin': undefined;
+  'login-profesor': undefined;
+  'submenu-profesor': undefined;
+  'nueva-rutina': undefined;
+  'rutinas-guardadas': undefined;
+  'ejecutar-rutina': undefined;
+  'submenu-niveles': undefined;
+  teoria: {nivel: Nivel; calificacion?: Calificacion};
+};
+
+const Stack = createNativeStackNavigator<ParamList>();
 
 const App: FunctionComponent = () => {
   return (
     <GlobalProvider>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="menu-conexion"
+          initialRouteName="submenu-niveles"
           screenOptions={{headerShown: false}}>
           <Stack.Screen name="menu-conexion" component={MenuConexion} />
           <Stack.Screen name="menu" component={MenuPrincipal} />
@@ -28,6 +44,8 @@ const App: FunctionComponent = () => {
           <Stack.Screen name="nueva-rutina" component={NuevaRutina} />
           <Stack.Screen name="rutinas-guardadas" component={RutinasGuardadas} />
           <Stack.Screen name="ejecutar-rutina" component={EjecutarRutina} />
+          <Stack.Screen name="teoria" component={Teoria} />
+          <Stack.Screen name="submenu-niveles" component={SubmenuNiveles} />
         </Stack.Navigator>
       </NavigationContainer>
     </GlobalProvider>

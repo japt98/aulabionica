@@ -38,7 +38,6 @@ const Motor: FunctionComponent<IMotor> = ({
         max={90}
         values={[operacion[index].posicion / 2]}
         onChange={(e: number[]) => {
-          console.log({e});
           setPosicion(e[0] * 2);
         }}
         markerColor="#5DB075"
