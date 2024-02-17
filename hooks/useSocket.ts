@@ -55,6 +55,10 @@ const useSocket = () => {
             });
           } catch (error) {
             let message = (error as Error)?.message;
+            if (message === 'no client found with id 742') {
+              console.error(error);
+              return;
+            }
             if (
               message === 'ERR_SOCKET_BAD_PORT' ||
               message?.includes('EADDRNOTAVAIL')

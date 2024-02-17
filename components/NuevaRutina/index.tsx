@@ -54,22 +54,18 @@ const NuevaRutina: FunctionComponent<INuevaRutina> = ({navigation}) => {
     operacion.filter(op => op.posicion !== data?.[`pos_motor${op.motor}`]);
 
   const agregarOperacion = () => {
+    const operacionActual = JSON.parse(JSON.stringify(operacion));
     setRutina({
       ...rutina,
-      operaciones: [
-        ...rutina.operaciones,
-        filtrarMovimientosNecesarios(operacion),
-      ],
+      operaciones: [...rutina.operaciones, operacionActual],
     });
   };
 
   const guardarRutina = async (name: string) => {
+    const operacionActual = JSON.parse(JSON.stringify(operacion));
     const rutinaCompleta = {
       nombre: name,
-      operaciones: [
-        ...rutina.operaciones,
-        filtrarMovimientosNecesarios(operacion),
-      ],
+      operaciones: [...rutina.operaciones, operacionActual],
     };
     dispatch({
       type: 'SET_RUTINA',

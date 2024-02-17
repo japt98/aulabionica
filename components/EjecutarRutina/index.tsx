@@ -29,6 +29,32 @@ const EjecutarRutina: FunctionComponent<IEjecutarRutina> = ({navigation}) => {
     data?.pos_motor5 || 0,
   ];
 
+  const filtrarOperacionesInnecesarias = ({
+    nombre,
+    operaciones,
+  }: Rutina): Rutina => {
+    const operacionesFiltradas = [operaciones[0]];
+
+    for (let i = 1; i < operaciones.length; i++) {
+      const operacionActual = operaciones[i];
+      const operacionPrevia =
+        operacionesFiltradas[operacionesFiltradas.length - 1];
+
+      const movimientosNecesarios = operacionActual.filter(movActual => {
+        const movPrevia = operacionPrevia.find(
+          mov => mov.motor === movActual.motor,
+        );
+        return !movPrevia || movPrevia.posicion !== movActual.posicion;
+      });
+
+      if (movimientosNecesarios.length > 0) {
+        operacionesFiltradas.push(movimientosNecesarios);
+      }
+    }
+
+    return {nombre, operaciones: operacionesFiltradas};
+  };
+
   const [rutina, setRutina] = useState<Rutina | null>(null);
   const [index, setIndex] = useState(0);
   const [ops, setOps] = useState<Operacion>([]);
@@ -38,7 +64,7 @@ const EjecutarRutina: FunctionComponent<IEjecutarRutina> = ({navigation}) => {
       const rutina = JSON.parse(
         (await AsyncStorage.getItem('exec-rutina')) || '',
       ) as Rutina;
-      setRutina(rutina);
+      setRutina(filtrarOperacionesInnecesarias(rutina));
       const primeraOperacion = rutina.operaciones[0];
       dispatch({type: 'SET_MOVIMIENTO', payload: primeraOperacion[0]});
       setOps(primeraOperacion.slice(1));
@@ -66,7 +92,7 @@ const EjecutarRutina: FunctionComponent<IEjecutarRutina> = ({navigation}) => {
         }
       }
     } catch (error) {
-      console.log(error);
+      console.log(JSON.stringify(error), (error as Error)?.message);
       throw error;
     }
   }, [movimiento]);
