@@ -21,7 +21,7 @@ const useSocket = () => {
   const {movimiento} = state;
 
   const dispatchRef = useRef(dispatch);
-  const throttledDispatch = useRef(throttle(dispatchRef.current, 200)).current; // Ajusta el intervalo según sea necesario
+  const throttledDispatch = useRef(throttle(dispatchRef.current, 1000)).current; // Ajusta el intervalo según sea necesario
 
   const socket = dgram.createSocket({
     type: 'udp4',
@@ -55,6 +55,10 @@ const useSocket = () => {
             });
           } catch (error) {
             let message = (error as Error)?.message;
+            if (message === 'no client found with id 742') {
+              console.error(error);
+              return;
+            }
             if (
               message === 'ERR_SOCKET_BAD_PORT' ||
               message?.includes('EADDRNOTAVAIL')

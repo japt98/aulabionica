@@ -30,7 +30,7 @@ const Motor: FunctionComponent<IMotor> = ({
       </View>
       <View>
         <Text style={s.title}>Pos. Actual</Text>
-        <Text style={s.value}>{Math.round(posicion / 2).toFixed(0)}</Text>
+        <Text style={s.value}>{Math.round(posicion / 2).toFixed(0)}°</Text>
       </View>
       <Slider
         key={`MotorSlider-${index}`}

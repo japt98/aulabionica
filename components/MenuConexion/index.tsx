@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react';
-import {Image, Pressable, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import s from './styles';
 import useSocket from '../../hooks/useSocket';
