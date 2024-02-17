@@ -1,4 +1,4 @@
-export const TIEMPO_DE_LA_SESION = 15 * 60 * 1000; // 15min en ms
+export const TIEMPO_DE_LA_SESION = 1 * 60 * 60 * 1000; // 15min en ms
 
 export const coordenadas = {
   // TODO: Guardar esto en una variable de entorno

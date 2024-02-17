@@ -8,6 +8,8 @@ import MenuPrincipal from './components/MenuPrincipal';
 import SubmenuProfesor from './components/SubmenuProfesor';
 import LoginProfesor from './components/LoginProfesor';
 import NuevaRutina from './components/NuevaRutina';
+import RutinasGuardadas from './components/RutinasGuardadas';
+import EjecutarRutina from './components/EjecutarRutina';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +26,8 @@ const App: FunctionComponent = () => {
           <Stack.Screen name="login-profesor" component={LoginProfesor} />
           <Stack.Screen name="submenu-profesor" component={SubmenuProfesor} />
           <Stack.Screen name="nueva-rutina" component={NuevaRutina} />
+          <Stack.Screen name="rutinas-guardadas" component={RutinasGuardadas} />
+          <Stack.Screen name="ejecutar-rutina" component={EjecutarRutina} />
         </Stack.Navigator>
       </NavigationContainer>
     </GlobalProvider>
