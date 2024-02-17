@@ -1,210 +1,90 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {Button, Pressable, Text, TextInput, View} from 'react-native';
-import {NavigationProp, ParamListBase} from '@react-navigation/native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import s from './styles';
-import Slider from 'react-native-a11y-slider';
 import Layout from '../Layout';
-import {GlobalContext} from '../../context/global';
 import useSocket from '../../hooks/useSocket';
-import {Movimiento} from '../../context/types';
-import {sleep} from '../../context/helpers';
+import {GlobalContext} from '../../context/global';
+import {Movimiento, Operacion} from '../../context/types';
+import Status from './status';
+import Motor from './motor';
+import LoadingModal from './loading';
 
-interface IControlAdmin {
-  navigation: NavigationProp<ParamListBase, 'control-admin'>;
-}
-
-const ControlAdmin: FunctionComponent<IControlAdmin> = ({navigation}) => {
+const ControlAdmin: FunctionComponent = () => {
   useSocket();
   const {state, dispatch} = useContext(GlobalContext);
-  const {data, movimiento, error} = state;
+  const {data, movimiento} = state;
 
-  const operacion: Movimiento[] = [
-    {
-      motor: 5,
-      posicion: 180,
-      velocidad: 100,
-    },
-    {
-      motor: 4,
-      posicion: 180,
-      velocidad: 100,
-    },
-    {
-      motor: 5,
-      posicion: 0,
-      velocidad: 100,
-    },
-    {
-      motor: 4,
-      posicion: 0,
-      velocidad: 100,
-    },
-    // {
-    //   motor: 3,
-    //   posicion: 98,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 2,
-    //   posicion: 0,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 1,
-    //   posicion: 180,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 0,
-    //   posicion: 0,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 0,
-    //   posicion: 105,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 1,
-    //   posicion: 23,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 2,
-    //   posicion: 170,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 3,
-    //   posicion: 1,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 4,
-    //   posicion: 34,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 5,
-    //   posicion: 20,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 5,
-    //   posicion: 180,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 4,
-    //   posicion: 104,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 3,
-    //   posicion: 98,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 2,
-    //   posicion: 0,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 1,
-    //   posicion: 180,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 0,
-    //   posicion: 0,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 0,
-    //   posicion: 105,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 1,
-    //   posicion: 23,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 2,
-    //   posicion: 170,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 3,
-    //   posicion: 1,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 4,
-    //   posicion: 34,
-    //   velocidad: 100,
-    // },
-    // {
-    //   motor: 5,
-    //   posicion: 20,
-    //   velocidad: 100,
-    // },
+  const motores = [
+    data?.pos_motor0 || 0,
+    data?.pos_motor1 || 0,
+    data?.pos_motor2 || 0,
+    data?.pos_motor3 || 0,
+    data?.pos_motor4 || 0,
+    data?.pos_motor5 || 0,
   ];
 
-  const [ops, setOps] = useState<Movimiento[]>([]);
+  const [operacion, setOperacion] = useState<Operacion>(
+    motores.map(
+      (posicion, i) =>
+        ({
+          motor: i,
+          posicion,
+          velocidad: 100,
+        } as Movimiento),
+    ),
+  );
+  const [ops, setOps] = useState<Operacion>([]);
 
-  const handleStart = async () => {
-    setOps(operacion.slice(1));
-    console.log('starting ops');
-    dispatch({type: 'SET_MOVIMIENTO', payload: operacion[0]});
+  const filtrarMovimientosNecesarios = (operacion: Operacion): Operacion =>
+    operacion.filter(op => op.posicion !== data?.[`pos_motor${op.motor}`]);
+
+  const handlePress = () => {
+    const movimientosAGuardar = filtrarMovimientosNecesarios(operacion);
+    setOps(movimientosAGuardar.slice(1));
+    dispatch({type: 'SET_MOVIMIENTO', payload: movimientosAGuardar[0]});
   };
 
   useEffect(() => {
-    if (!movimiento && ops.length > 0) {
-      console.log('dispatching mov');
-      dispatch({type: 'SET_MOVIMIENTO', payload: ops[0]});
-      setOps(prevOps => prevOps.slice(1));
+    // TODO: Encontrar el error al moverse
+    try {
+      if (!movimiento && ops.length > 0) {
+        dispatch({type: 'SET_MOVIMIENTO', payload: ops[0]});
+        setOps(prevOps => prevOps.slice(1));
+      }
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   }, [movimiento]);
 
+  const loading = ops.length > 0;
+
   return (
     <Layout title="Control">
-      <View style={s.container}>
+      <View style={s.wrapper}>
+        <LoadingModal visible={loading} />
+        <Status data={data} />
+        <Text style={s.motoresTitle}>Motores</Text>
         <View>
-          <Text>MOTOR 0: {data?.pos_motor0}</Text>
-          <Text>MOTOR 1: {data?.pos_motor1}</Text>
-          <Text>MOTOR 2: {data?.pos_motor2}</Text>
-          <Text>MOTOR 3: {data?.pos_motor3}</Text>
-          <Text>MOTOR 4: {data?.pos_motor4}</Text>
-          <Text>MOTOR 5: {data?.pos_motor5}</Text>
-          <Text>FSR: {data?.fuerza} N</Text>
+          {motores.map((pos, i) => (
+            <Motor
+              index={i}
+              posicion={pos}
+              key={`Motor-${i}`}
+              operacion={operacion}
+              setOperacion={setOperacion}
+            />
+          ))}
         </View>
-
-        <Pressable
-          style={{
-            ...s.button,
-            backgroundColor: '#147efb',
-          }}
-          onPress={handleStart}>
-          <Text style={s.buttonText}>Submit</Text>
-        </Pressable>
-
-        {error && (
-          <View>
-            <Text>ERROR: {error}</Text>
-          </View>
-        )}
-
-        {movimiento && (
-          <View>
-            <Text>EN MOVIMIENTO ⚠️</Text>
-          </View>
-        )}
+        {/* <View style={s.buttons}> */}
+        {/* <View></View> */}
+        <TouchableOpacity style={s.button} onPress={handlePress}>
+          <Text style={s.buttonText}>Iniciar</Text>
+        </TouchableOpacity>
+        {/* </View> */}
       </View>
     </Layout>
   );
 };
 
 export default ControlAdmin;
-
-function obtenerValoresActuales() {} //WTF
