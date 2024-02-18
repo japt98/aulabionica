@@ -1,11 +1,11 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import {NavigationProp, RouteProp} from '@react-navigation/native';
 import Layout from '../../Layout';
 import {ParamList} from '../../../App';
 import s from './styles';
 import PreguntaForm from './form';
-import {Calificacion, MIN_CALIFICACION_APROBADA, Pregunta} from '..';
+import {Calificacion, MIN_CALIFICACION_APROBADA, Pregunta, practicas} from '..';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface ITeoria {
@@ -15,34 +15,28 @@ interface ITeoria {
 
 const Teoria: FunctionComponent<ITeoria> = ({navigation, route}) => {
   const {nivel, calificacion} = route.params;
-  const {
-    index,
-    titulo,
-    descripcion,
-    validacion,
-    objetivo,
-    conceptosClave,
-    teoria,
-    practica: ComponentePractica,
-  } = nivel;
+  const {index, titulo, validacion, objetivo, conceptosClave, teoria} = nivel;
 
   const [pregunta, setPregunta] = useState<Pregunta | null>(null);
   const [correctas, setCorrectas] = useState(0);
 
   const [indexPregunta, setIndexPregunta] = useState(0);
-  const [practica, setPractica] = useState(false); // Si ya pasaste la teoria mandarte a la practica
+  const [practica, setPractica] = useState(false);
 
-  // Si ya pasaste la teoria mandarte a la practica
-  // Si ya pasaste la practica puedes volverla a hacer y se conservará la mayor nota
-  // Mostrar resultados (teoria y practica)
   const iniciarNivel = () => {
-    setPregunta(teoria[0]);
+    if (
+      calificacion?.teoria &&
+      calificacion.teoria >= MIN_CALIFICACION_APROBADA
+    ) {
+      setPractica(true);
+    } else {
+      setPregunta(teoria[0]);
+    }
   };
 
   const agregarRespuesta = async (respuestaCorrecta: boolean) => {
     const proximoIndex = indexPregunta + 1;
     if (teoria[proximoIndex]) {
-      // Hay proximo
       if (respuestaCorrecta) {
         setCorrectas(correctas + 1);
       }
@@ -54,12 +48,6 @@ const Teoria: FunctionComponent<ITeoria> = ({navigation, route}) => {
       const calificacionTeoria = (100 * respuestasCorrectas) / teoria.length;
 
       const aprobado = calificacionTeoria >= MIN_CALIFICACION_APROBADA;
-      Alert.alert(
-        'Resultado',
-        `Calificacion: ${calificacionTeoria} (aprobado?: ${aprobado})\n
-          Respuestas ${respuestasCorrectas}/${teoria.length}
-        `,
-      );
 
       const nuevaCalificacionTeorica = Math.max(
         calificacion?.teoria || 0,
@@ -85,12 +73,21 @@ const Teoria: FunctionComponent<ITeoria> = ({navigation, route}) => {
         ]),
       );
 
-      //agregar ultima respuesta
-      // obtener el resultado
-      // decidir si aprobo o no
-      // dependiendo de si aprobó, mandar o no a practica
+      Alert.alert(
+        aprobado ? 'Felicitaciones 🎉' : 'Inténtalo de nuevo 😢',
+        `Preguntas Correctas: ${respuestasCorrectas}/${teoria.length}`,
+      );
+
+      if (aprobado) {
+        // mandar a practica
+        setPractica(true);
+      } else {
+        navigation.navigate('submenu-niveles');
+      }
     }
   };
+
+  const ComponentePractica = practicas[nivel.index];
 
   return (
     <Layout title={`Nivel ${index + 1}`}>
@@ -102,11 +99,18 @@ const Teoria: FunctionComponent<ITeoria> = ({navigation, route}) => {
         ) : pregunta ? (
           <PreguntaForm {...pregunta} callback={agregarRespuesta} />
         ) : (
-          <View>
-            <Text style={{color: 'black'}}>Objetivo: {objetivo}</Text>
-            <Text style={{color: 'black'}}>Validación: {validacion}</Text>
-            <Text style={{color: 'black'}}>
-              Conceptos Clave: {conceptosClave}
+          <View style={s.textWrapper}>
+            <Text style={s.text}>
+              <Text style={s.boldtext}>Objetivo: </Text>
+              {objetivo}
+            </Text>
+            <Text style={s.text}>
+              <Text style={s.boldtext}>Validación: </Text>
+              {validacion}
+            </Text>
+            <Text style={s.text}>
+              <Text style={s.boldtext}>Conceptos Clave: </Text>
+              {conceptosClave}
             </Text>
             <TouchableOpacity style={s.button} onPress={iniciarNivel}>
               <Text style={s.buttonText}>Iniciar</Text>

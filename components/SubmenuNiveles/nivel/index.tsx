@@ -45,6 +45,10 @@ const Nivel: FunctionComponent<INivel> = ({
             resizeMode="contain"
           />
         )}
+
+        <View style={s.index}>
+          <Text style={s.indexText}>{nivel.index + 1}</Text>
+        </View>
         <View style={s.textWrapper}>
           <Text style={s.titulo}>{titulo}</Text>
           <Text style={s.descripcion}>{descripcion}</Text>

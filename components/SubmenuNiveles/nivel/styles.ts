@@ -8,6 +8,7 @@ export default StyleSheet.create({
     display: 'flex',
     paddingHorizontal: 2,
     height: 120,
+    paddingTop: 10,
   },
   wrapper: {
     position: 'relative',
@@ -85,5 +86,22 @@ export default StyleSheet.create({
     position: 'absolute',
     right: -2,
     bottom: -7,
+  },
+  index: {
+    zIndex: 1,
+    width: 25,
+    height: 25,
+    position: 'absolute',
+    left: -1,
+    top: -7,
+    backgroundColor: '#42d4fa',
+    borderRadius: 20,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  indexText: {
+    color: '#fff',
+    fontWeight: '700',
   },
 });

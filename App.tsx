@@ -34,7 +34,7 @@ const App: FunctionComponent = () => {
     <GlobalProvider>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="submenu-niveles"
+          initialRouteName="menu-conexion"
           screenOptions={{headerShown: false}}>
           <Stack.Screen name="menu-conexion" component={MenuConexion} />
           <Stack.Screen name="menu" component={MenuPrincipal} />

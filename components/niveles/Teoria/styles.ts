@@ -20,4 +20,15 @@ export default StyleSheet.create({
     marginTop: 12,
     marginBottom: 25,
   },
+  textWrapper: {
+    paddingHorizontal: 25,
+  },
+  text: {
+    marginBottom: 10,
+    color: '#000',
+    fontSize: 14,
+  },
+  boldtext: {
+    fontWeight: '800',
+  },
 });

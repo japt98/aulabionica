@@ -1,24 +1,26 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
-import {Image, TouchableOpacity, Text, View, ScrollView} from 'react-native';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import React, {FunctionComponent, useCallback, useState} from 'react';
+import {Image, Text, View, ScrollView} from 'react-native';
 import s from './styles';
 import Layout from '../Layout';
 import niveles, {Calificacion, MIN_CALIFICACION_APROBADA} from '../niveles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ParamList} from '../../App';
 import Nivel from './nivel';
+import {useFocusEffect} from '@react-navigation/native';
 
 const SubmenuNiveles: FunctionComponent = () => {
-  const navigation = useNavigation<NavigationProp<ParamList>>();
   const [calificaciones, setCalificaciones] = useState<Calificacion[]>([]);
 
-  useEffect(() => {
-    const obtenerCalificaciones = async () => {
-      const calificaciones_ = await AsyncStorage.getItem('calificaciones');
-      calificaciones_ && setCalificaciones(JSON.parse(calificaciones_));
-    };
-    obtenerCalificaciones();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const obtenerCalificaciones = async () => {
+        const calificaciones_ =
+          (await AsyncStorage.getItem('calificaciones')) || '[]';
+        console.log('cal', calificaciones_);
+        setCalificaciones(JSON.parse(calificaciones_));
+      };
+      obtenerCalificaciones();
+    }, []),
+  );
 
   const obtenerCalificacionDeNivel = (cal: Calificacion[], index: number) =>
     cal.find(e => e.index === index);
@@ -31,8 +33,6 @@ const SubmenuNiveles: FunctionComponent = () => {
       calificacion.teoria >= MIN_CALIFICACION_APROBADA
     );
   };
-
-  console.log(calificaciones, 'calificaciones');
 
   return (
     <Layout title="Niveles">

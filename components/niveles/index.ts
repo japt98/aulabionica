@@ -1,7 +1,7 @@
 import {FunctionComponent} from 'react';
 import Nivel1 from './Nivel1';
 
-export const MIN_CALIFICACION_APROBADA = 80;
+export const MIN_CALIFICACION_APROBADA = 75;
 
 export type Pregunta = {
   pregunta: string;
@@ -23,7 +23,6 @@ export type Nivel = {
   validacion: string;
   conceptosClave: string;
   teoria: Pregunta[];
-  practica: FunctionComponent;
 };
 
 // TODO: Hacer que el profesor pueda leer toda esta informacion
@@ -100,7 +99,6 @@ const nivel1: Nivel = {
       respuesta: 1,
     },
   ],
-  practica: Nivel1,
 };
 
 const nivel2: Nivel = {
@@ -126,9 +124,17 @@ const nivel2: Nivel = {
       respuesta: 2,
     },
   ],
-  practica: Nivel1,
 };
 
 const niveles = [nivel1, nivel2];
+
+interface Practicas {
+  [keys: number]: FunctionComponent;
+}
+
+export const practicas: Practicas = {
+  0: Nivel1,
+  1: Nivel1,
+};
 
 export default niveles;
