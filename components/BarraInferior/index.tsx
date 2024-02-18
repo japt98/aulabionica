@@ -10,11 +10,11 @@ import {
 import {
   useRoute,
   useNavigation,
-  ParamListBase,
   NavigationProp,
 } from '@react-navigation/native';
 import s from './styles';
 import {GlobalContext} from '../../context/global';
+import {ParamList} from '../../App';
 
 const IconWithLabel: FunctionComponent<{
   icon: ImageSourcePropType;
@@ -29,7 +29,7 @@ const IconWithLabel: FunctionComponent<{
 };
 
 const BarraInferior: FunctionComponent = () => {
-  const navigation = useNavigation<NavigationProp<ParamListBase, any>>();
+  const navigation = useNavigation<NavigationProp<ParamList>>();
   const route = useRoute();
 
   const isMenu = route.name === 'menu';
