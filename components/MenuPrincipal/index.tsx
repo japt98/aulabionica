@@ -80,6 +80,26 @@ const MenuPrincipal: FunctionComponent<IMenuPrincipal> = ({navigation}) => {
               <Text style={s.texto}>Alumno</Text>
             </TouchableOpacity>
           </View>
+          <View>
+            <TouchableOpacity style={s.posContainer}>
+              <Image
+                style={s.posImage}
+                source={require(`../../assets/arrow-rotate-right-solid.png`)}
+                resizeMode="contain"
+              />
+              <Text style={s.posText}>Posición de inicio</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity style={s.posContainer}>
+              <Image
+                style={s.posImage}
+                source={require(`../../assets/power-off-solid.png`)}
+                resizeMode="contain"
+              />
+              <Text style={s.posText}>Posición de apagado</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Layout>
