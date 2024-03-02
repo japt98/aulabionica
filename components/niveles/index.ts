@@ -126,8 +126,6 @@ const nivel2: Nivel = {
   ],
 };
 
-const niveles = [nivel1, nivel2];
-
 interface Practicas {
   [keys: number]: FunctionComponent;
 }
@@ -136,5 +134,7 @@ export const practicas: Practicas = {
   0: Nivel1,
   1: Nivel1,
 };
+
+const niveles = [nivel1, nivel2];
 
 export default niveles;

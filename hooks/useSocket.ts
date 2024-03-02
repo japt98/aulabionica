@@ -21,7 +21,7 @@ const useSocket = () => {
   const {movimiento} = state;
 
   const dispatchRef = useRef(dispatch);
-  const throttledDispatch = useRef(throttle(dispatchRef.current, 1000)).current; // Ajusta el intervalo según sea necesario
+  const throttledDispatch = useRef(throttle(dispatchRef.current, 500)).current; // Ajusta el intervalo según sea necesario
 
   const socket = dgram.createSocket({
     type: 'udp4',

@@ -22,6 +22,7 @@ export default StyleSheet.create({
     backgroundColor: '#5DB075',
     padding: 16,
     marginTop: 25,
+    marginBottom: 30,
   },
   buttonText: {
     textAlign: 'center',
