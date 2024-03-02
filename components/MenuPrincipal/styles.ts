@@ -1,13 +1,15 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
+
+const screenHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
   container: {
     backgroundColor: '#5DB075',
     width: '100%',
-    // height: '100%',
     position: 'relative',
     display: 'flex',
     flex: 1,
+    minHeight: screenHeight - 134,
   },
   card: {
     backgroundColor: 'white',

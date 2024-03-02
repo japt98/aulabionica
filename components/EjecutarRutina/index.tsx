@@ -6,7 +6,7 @@ import Layout from '../Layout';
 import useSocket from '../../hooks/useSocket';
 import {GlobalContext} from '../../context/global';
 import {Operacion, Rutina} from '../../context/types';
-import Status from './status';
+import Status from '../shared/status';
 import Motor from './motor';
 import LoadingModal from './loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -37,8 +37,7 @@ const EjecutarRutina: FunctionComponent<IEjecutarRutina> = ({navigation}) => {
 
     for (let i = 1; i < operaciones.length; i++) {
       const operacionActual = operaciones[i];
-      const operacionPrevia =
-        operacionesFiltradas[operacionesFiltradas.length - 1];
+      const operacionPrevia = operaciones[i - 1];
 
       const movimientosNecesarios = operacionActual.filter(movActual => {
         const movPrevia = operacionPrevia.find(

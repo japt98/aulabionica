@@ -23,7 +23,7 @@ export default StyleSheet.create({
     marginLeft: 2,
   },
   fuerzaValue: {
-    fontSize: 32,
+    fontSize: 24,
     textAlign: 'center',
     color: '#000',
   },

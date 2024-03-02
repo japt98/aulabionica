@@ -10,8 +10,8 @@ const ROBOT_PORT = 60000;
 const ROBOT_ADDR = '192.168.0.106';
 
 const INITIAL_MOV: Movimiento = {
-  motor: 2,
-  posicion: 90,
+  motor: 5,
+  posicion: 0,
   velocidad: 100,
 };
 
@@ -33,13 +33,13 @@ const formatMessage = (msg: string): Data => {
     pos_motor3: parseInt(values[3]),
     pos_motor4: parseInt(values[4]),
     pos_motor5: parseInt(values[5]),
-    param_x_giro0: parseInt(values[6]) / 10,
-    param_y_giro0: parseInt(values[7]) / 10,
-    param_z_giro0: parseInt(values[8]) / 10,
-    param_x_giro1: parseInt(values[9]) / 10,
-    param_y_giro1: parseInt(values[10]) / 10,
-    param_z_giro1: parseInt(values[11]) / 10,
-    fuerza: parseInt(values[12]) / 10,
+    param_x_giro0: parseInt(values[6]),
+    param_y_giro0: parseInt(values[7]),
+    param_z_giro0: parseInt(values[8]),
+    param_x_giro1: parseInt(values[9]),
+    param_y_giro1: parseInt(values[10]),
+    param_z_giro1: parseInt(values[11]),
+    fuerza: parseInt(values[12]),
   };
   return data;
 };

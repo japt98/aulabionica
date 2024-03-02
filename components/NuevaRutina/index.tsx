@@ -6,7 +6,7 @@ import Layout from '../Layout';
 import useSocket from '../../hooks/useSocket';
 import {GlobalContext} from '../../context/global';
 import {Movimiento, Operacion, Rutina} from '../../context/types';
-import Status from './status';
+import Status from '../shared/status';
 import Motor from './motor';
 import ModalForm from './modal';
 import LoadingModal from './loading';
