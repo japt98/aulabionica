@@ -33,7 +33,10 @@ const useSocket = () => {
     let message = (error as Error)?.message;
     if (message === 'ERR_SOCKET_BAD_PORT' || message?.includes('EADDRNOTAVAIL'))
       message = 'No Conectado a red WiFi';
-    if (message.toLowerCase().includes('no client found with')) {
+    if (
+      message.toLowerCase().includes('no client found with') ||
+      message.toLowerCase().includes('socket is already bound')
+    ) {
       console.log(message);
       return;
     }
