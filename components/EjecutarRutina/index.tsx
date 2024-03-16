@@ -54,6 +54,9 @@ const EjecutarRutina: FunctionComponent<IEjecutarRutina> = ({navigation}) => {
     return {nombre, operaciones: operacionesFiltradas};
   };
 
+  const filtrarOperacionesIniciales = (op: Operacion) =>
+    op.filter(mov => mov.posicion !== motores[mov.motor]);
+
   const [rutina, setRutina] = useState<Rutina | null>(null);
   const [index, setIndex] = useState(0);
   const [ops, setOps] = useState<Operacion>([]);
@@ -64,7 +67,9 @@ const EjecutarRutina: FunctionComponent<IEjecutarRutina> = ({navigation}) => {
         (await AsyncStorage.getItem('exec-rutina')) || '',
       ) as Rutina;
       setRutina(filtrarOperacionesInnecesarias(rutina));
-      const primeraOperacion = rutina.operaciones[0];
+      const primeraOperacion = filtrarOperacionesIniciales(
+        rutina.operaciones[0],
+      );
       dispatch({type: 'SET_MOVIMIENTO', payload: primeraOperacion[0]});
       setOps(primeraOperacion.slice(1));
     };
@@ -86,6 +91,15 @@ const EjecutarRutina: FunctionComponent<IEjecutarRutina> = ({navigation}) => {
           setIndex(index + 1);
         } else {
           setIndex(index + 1);
+          if (rutina.nombre === 'Inicializar') {
+            navigation.navigate('menu');
+            return;
+          }
+          if (rutina.nombre === 'Guardar') {
+            navigation.navigate('menu');
+            Alert.alert('Es seguro apagar el robot');
+            return;
+          }
           navigation.navigate('rutinas-guardadas');
           Alert.alert('Rutina finalizada');
         }
@@ -106,7 +120,7 @@ const EjecutarRutina: FunctionComponent<IEjecutarRutina> = ({navigation}) => {
         {/* TODO: Make this shared */}
         <LoadingModal visible={loading} />
         {/* TODO: Make this shared */}
-        <Status data={data} />
+        <Status data={data} vel={(movimiento?.velocidad || 50) / 10} />
         <Text style={s.motoresTitle}>Motores</Text>
         <View>
           {motores.map((pos, i) => (

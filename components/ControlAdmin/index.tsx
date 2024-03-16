@@ -36,7 +36,13 @@ const ControlAdmin: FunctionComponent = () => {
   const [ops, setOps] = useState<Operacion>([]);
 
   const filtrarMovimientosNecesarios = (operacion: Operacion): Operacion =>
-    operacion.filter(op => op.posicion !== data?.[`pos_motor${op.motor}`]);
+    operacion
+      .filter(op => op.posicion !== data?.[`pos_motor${op.motor}`])
+      .map(op => ({...op, velocidad}));
+
+  const [velocidad, setVelocidad] = useState(50);
+  const incrementVel = () => setVelocidad(prev => prev + 10);
+  const decrementVel = () => setVelocidad(prev => prev - 10);
 
   const handlePress = () => {
     const movimientosAGuardar = filtrarMovimientosNecesarios(operacion);
@@ -63,7 +69,12 @@ const ControlAdmin: FunctionComponent = () => {
     <Layout title="Control">
       <View style={s.wrapper}>
         <LoadingModal visible={loading} />
-        <Status data={data} />
+        <Status
+          data={data}
+          vel={velocidad / 10}
+          incrementVel={incrementVel}
+          decrementVel={decrementVel}
+        />
         <Text style={s.motoresTitle}>Motores</Text>
         <View>
           {motores.map((pos, i) => (

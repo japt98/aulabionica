@@ -13,6 +13,8 @@ import EjecutarRutina from './components/EjecutarRutina';
 import Teoria from './components/niveles/Teoria';
 import SubmenuNiveles from './components/SubmenuNiveles';
 import {Calificacion, Nivel} from './components/niveles';
+import VistaProfesor from './components/niveles/VistaProfesor';
+import SubmenuNivelesProfesor from './components/SubmenuNivelesProfesor';
 
 export type ParamList = {
   'menu-conexion': undefined;
@@ -20,11 +22,13 @@ export type ParamList = {
   'control-admin': undefined;
   'login-profesor': undefined;
   'submenu-profesor': undefined;
+  'submenu-niveles-profesor': undefined;
   'nueva-rutina': undefined;
   'rutinas-guardadas': undefined;
   'ejecutar-rutina': undefined;
   'submenu-niveles': undefined;
   teoria: {nivel: Nivel; calificacion?: Calificacion};
+  'vista-profesor': {nivel: Nivel};
 };
 
 const Stack = createNativeStackNavigator<ParamList>();
@@ -46,6 +50,11 @@ const App: FunctionComponent = () => {
           <Stack.Screen name="ejecutar-rutina" component={EjecutarRutina} />
           <Stack.Screen name="teoria" component={Teoria} />
           <Stack.Screen name="submenu-niveles" component={SubmenuNiveles} />
+          <Stack.Screen name="vista-profesor" component={VistaProfesor} />
+          <Stack.Screen
+            name="submenu-niveles-profesor"
+            component={SubmenuNivelesProfesor}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </GlobalProvider>

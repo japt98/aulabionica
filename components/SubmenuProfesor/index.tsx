@@ -1,6 +1,5 @@
-import React, {FunctionComponent, useState} from 'react';
-import {Image, TouchableOpacity, Text, View} from 'react-native';
-import {NavigationProp, ParamListBase} from '@react-navigation/native';
+import React, {FunctionComponent} from 'react';
+import {Image, Text, View} from 'react-native';
 import s from './styles';
 import Layout from '../Layout';
 import SubMenu from '../SubMenu';
@@ -8,6 +7,10 @@ import {ILink} from '../../types';
 
 const SubmenuProfesor: FunctionComponent = () => {
   const links: ILink[] = [
+    {
+      route: 'submenu-niveles-profesor',
+      title: 'Información de Niveles',
+    },
     {
       route: 'control-admin',
       title: 'Control del Robot',

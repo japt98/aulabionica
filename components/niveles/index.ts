@@ -23,6 +23,7 @@ export type Nivel = {
   validacion: string;
   conceptosClave: string;
   teoria: Pregunta[];
+  descripcionPractica: string;
 };
 
 // TODO: Hacer que el profesor pueda leer toda esta informacion
@@ -36,6 +37,8 @@ const nivel1: Nivel = {
   validacion:
     'El brazo robótico debe completar el movimiento asignado para llegar al punto destino.',
   conceptosClave: 'Actuadores, sensores, programación básica, seguridad.',
+  descripcionPractica:
+    'Dada una imagen de posición del robot, el estudiante deberá llevarlo a las posiciones correspondientes y finalmente el programa validará que las coordenadas articulares fueron colocadas de forma correcta, dentro de un rango con una tolerancia de ±3°',
   teoria: [
     {
       pregunta: '¿Qué es un actuador en robótica?',
@@ -112,6 +115,8 @@ const nivel2: Nivel = {
   conceptosClave:
     'Procesamiento de señales, visión por computadora, retroalimentación sensorial.',
   // SOLO EJEMPLO
+  descripcionPractica:
+    'Dada una imagen de posición del robot, el estudiante deberá llevarlo a las posiciones correspondientes y finalmente el programa validará que las coordenadas articulares fueron colocadas de forma correcta, dentro de un rango con una tolerancia de ±3°',
   teoria: [
     {
       pregunta: '¿Qué es un actuador en robótica?',
