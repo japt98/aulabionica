@@ -66,7 +66,7 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
   descripcionProg: {
-    fontSize: 10,
+    fontSize: 8,
     textAlign: 'right',
     lineHeight: 13,
     color: '#777',
