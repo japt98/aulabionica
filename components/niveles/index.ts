@@ -1,5 +1,6 @@
 import {FunctionComponent} from 'react';
 import Nivel1 from './Nivel1';
+import Nivel2 from './Nivel2';
 
 export const MIN_CALIFICACION_APROBADA = 75;
 
@@ -109,24 +110,56 @@ const nivel2: Nivel = {
   titulo: 'Integración de Sensores',
   descripcion: 'Uso de la información de los sensores en el brazo robótico',
   objetivo:
-    ' Asegurarse de que el estudiante entiende cómo integrar y utilizar la información de los sensores para influir en el comportamiento del brazo robótico.',
+    'Asegurarse de que el estudiante entiende cómo integrar y utilizar la información de los sensores para influir en el comportamiento del brazo robótico.',
   validacion:
-    'Analizar la respuesta del sistema a la entrada de los sensores y la precisión de las tareas realizadas.',
+    'Evidenciar la precisión del sistema utilizando la información de los acelerómetros.',
   conceptosClave:
-    'Procesamiento de señales, visión por computadora, retroalimentación sensorial.',
-  // SOLO EJEMPLO
+    'Interpretación de datos de acelerómetros, control de movimiento basado en retroalimentación sensorial, algoritmos de decisión basados en entradas sensoriales',
   descripcionPractica:
-    'Dada una imagen de posición del robot, el estudiante deberá llevarlo a las posiciones correspondientes y finalmente el programa validará que las coordenadas articulares fueron colocadas de forma correcta, dentro de un rango con una tolerancia de ±3°',
+    'Se le solicitará al estudiante llevar los eslabones del robot a un ángulo relativo con el centro de masa (la idea es que mueva el robot y vea cómo varían los valores de los sensores). Luego de esto se validarán los valores finales de los sensores.  ',
   teoria: [
     {
-      pregunta: '¿Qué es un actuador en robótica?',
+      pregunta: '¿Para qué se utilizan los acelerómetros en la robótica?',
       opciones: [
-        'Un dispositivo que permite al robot recibir señales del entorno.',
-        'Un componente que proporciona energía al robot.',
-        'Un dispositivo que convierte las señales de control en movimiento físico.',
-        'Un sensor que detecta cambios en el ambiente.',
+        'Para medir la distancia recorrida por el robot.',
+        'Para detectar la dirección del viento.',
+        'Para determinar la orientación y el movimiento del robot.',
+        'Para calcular la temperatura del entorno.',
       ],
       respuesta: 2,
+    },
+    {
+      pregunta:
+        '¿Cómo puede un sensor de fuerza influir en el comportamiento de un brazo robótico?',
+      opciones: [
+        'Permitiendo que el brazo reproduzca música.',
+        'Ajustando la presión ejercida al agarrar objetos.',
+        'Cambiando el color del brazo robótico.',
+        'Mejorando la capacidad del brazo para emitir luz.',
+      ],
+      respuesta: 1,
+    },
+    {
+      pregunta:
+        '¿Qué concepto es crucial para interpretar los datos provenientes de un acelerómetro?',
+      opciones: [
+        'Programación funcional.',
+        'Teoría musical.',
+        'Procesamiento de señales.',
+        'Diseño gráfico.',
+      ],
+      respuesta: 2,
+    },
+    {
+      pregunta:
+        'Al incorporar retroalimentación sensorial en un brazo robótico, ¿qué se busca mejorar principalmente?',
+      opciones: [
+        'La habilidad del brazo para jugar videojuegos.',
+        'La precisión y adaptabilidad del brazo a diferentes tareas y entornos.',
+        'La capacidad del brazo para operar en el vacío del espacio.',
+        'El consumo eléctrico del brazo robótico.',
+      ],
+      respuesta: 1,
     },
   ],
 };
@@ -140,9 +173,55 @@ interface Practicas {
 
 export const practicas: Practicas = {
   0: Nivel1,
-  1: Nivel1,
+  1: Nivel2,
 };
 
 const niveles = [nivel1, nivel2];
 
 export default niveles;
+
+/**
+ * const preguntas = [
+  {
+    pregunta: "¿Qué describe la cinemática directa en un sistema robótico?",
+    opciones: [
+      "La influencia de las fuerzas externas en la posición del robot.",
+      "La relación entre la configuración de las articulaciones y la posición y orientación del efector final.",
+      "El cálculo de la velocidad necesaria para mover cada articulación.",
+      "La interpretación de la señal de un sensor para determinar la posición del robot."
+    ],
+    respuesta: 1
+  },
+  {
+    pregunta: "¿Para qué se utilizan las matrices de rotación en la cinemática directa?",
+    opciones: [
+      "Para calcular el consumo de energía de cada motor.",
+      "Para describir la orientación de las articulaciones o del efector final.",
+      "Para determinar la temperatura de operación del robot.",
+      "Para diseñar la forma física de las articulaciones del robot."
+    ],
+    respuesta: 1
+  },
+  {
+    pregunta: "¿Qué papel juegan las transformaciones geométricas en la cinemática directa?",
+    opciones: [
+      "Para diseñar circuitos eléctricos dentro del robot.",
+      "Para calcular la posición del efector final a partir de las posiciones de las articulaciones.",
+      "Para medir la resistencia de los materiales del robot.",
+      "Para estimar el peso del robot."
+    ],
+    respuesta: 1
+  },
+  {
+    pregunta: "Al definir la posición del efector final en la cinemática directa, ¿qué sistema de coordenadas se utiliza comúnmente?",
+    opciones: [
+      "Coordenadas polares.",
+      "Coordenadas cartesianas.",
+      "Coordenadas homogéneas.",
+      "Coordenadas cilíndricas."
+    ],
+    respuesta: 2
+  }
+];
+
+ */
