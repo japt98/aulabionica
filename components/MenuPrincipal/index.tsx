@@ -4,8 +4,10 @@ import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import s from './styles';
 import Layout from '../Layout';
+import * as rutinas from './rutinas';
 import {GlobalContext} from '../../context/global';
 import {TIEMPO_DE_LA_SESION} from '../LoginProfesor/coordenadas';
+import {Rutina} from '../../context/types';
 
 interface IMenuPrincipal {
   navigation: NavigationProp<ParamListBase, 'menu-principal'>;
@@ -28,6 +30,11 @@ const MenuPrincipal: FunctionComponent<IMenuPrincipal> = ({navigation}) => {
       sessionItem &&
       new Date().getTime() - Number(sessionItem) < TIEMPO_DE_LA_SESION;
     navigation.navigate(valido ? 'submenu-profesor' : 'login-profesor');
+  };
+
+  const setRutina = async (rutina: Rutina) => {
+    await AsyncStorage.setItem('exec-rutina', JSON.stringify(rutina));
+    navigation.navigate('ejecutar-rutina');
   };
 
   return (
@@ -81,7 +88,9 @@ const MenuPrincipal: FunctionComponent<IMenuPrincipal> = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={s.posContainer}>
+            <TouchableOpacity
+              style={s.posContainer}
+              onPress={() => setRutina(rutinas.iniciado)}>
               <Image
                 style={s.posImage}
                 source={require(`../../assets/arrow-rotate-right-solid.png`)}
@@ -91,7 +100,9 @@ const MenuPrincipal: FunctionComponent<IMenuPrincipal> = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View>
-            <TouchableOpacity style={s.posContainer}>
+            <TouchableOpacity
+              style={s.posContainer}
+              onPress={() => setRutina(rutinas.guardado)}>
               <Image
                 style={s.posImage}
                 source={require(`../../assets/power-off-solid.png`)}

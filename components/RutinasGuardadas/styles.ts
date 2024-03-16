@@ -57,4 +57,10 @@ export default StyleSheet.create({
     fontWeight: '800',
     fontSize: 13,
   },
+  info: {
+    marginTop: 15,
+    textAlign: 'center',
+    fontSize: 12,
+    color: '#777',
+  },
 });

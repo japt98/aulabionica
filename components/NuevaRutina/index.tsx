@@ -32,6 +32,10 @@ const NuevaRutina: FunctionComponent<INuevaRutina> = ({navigation}) => {
     data?.pos_motor5 || 0,
   ];
 
+  const [velocidad, setVelocidad] = useState(50);
+  const incrementVel = () => setVelocidad(prev => prev + 10);
+  const decrementVel = () => setVelocidad(prev => prev - 10);
+
   const [operacion, setOperacion] = useState<Operacion>(
     motores.map(
       (posicion, i) =>
@@ -51,10 +55,16 @@ const NuevaRutina: FunctionComponent<INuevaRutina> = ({navigation}) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const filtrarMovimientosNecesarios = (operacion: Operacion): Operacion =>
-    operacion.filter(op => op.posicion !== data?.[`pos_motor${op.motor}`]);
+    operacion
+      .filter(mov => mov.posicion !== data?.[`pos_motor${mov.motor}`])
+      .map(mov => ({...mov, velocidad: Number(`${velocidad}`)}));
 
   const agregarOperacion = () => {
-    const operacionActual = JSON.parse(JSON.stringify(operacion));
+    const operacionActual = JSON.parse(
+      JSON.stringify(
+        operacion.map(mov => ({...mov, velocidad: Number(`${velocidad}`)})),
+      ),
+    ) as Operacion;
     setRutina({
       ...rutina,
       operaciones: [...rutina.operaciones, operacionActual],
@@ -62,7 +72,11 @@ const NuevaRutina: FunctionComponent<INuevaRutina> = ({navigation}) => {
   };
 
   const guardarRutina = async (name: string) => {
-    const operacionActual = JSON.parse(JSON.stringify(operacion));
+    const operacionActual = JSON.parse(
+      JSON.stringify(
+        operacion.map(mov => ({...mov, velocidad: Number(`${velocidad}`)})),
+      ),
+    ) as Operacion;
     const rutinaCompleta = {
       nombre: name,
       operaciones: [...rutina.operaciones, operacionActual],
@@ -126,7 +140,12 @@ const NuevaRutina: FunctionComponent<INuevaRutina> = ({navigation}) => {
     <Layout title="Nueva Rutina">
       <View style={s.wrapper}>
         <LoadingModal visible={loading} />
-        <Status data={data} />
+        <Status
+          data={data}
+          vel={velocidad / 10}
+          incrementVel={incrementVel}
+          decrementVel={decrementVel}
+        />
         <Text style={s.motoresTitle}>Motores</Text>
         <View>
           {motores.map((pos, i) => (
