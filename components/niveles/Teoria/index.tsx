@@ -95,7 +95,7 @@ const Teoria: FunctionComponent<ITeoria> = ({navigation, route}) => {
         <Text style={s.titulo}>{titulo}</Text>
 
         {practica ? (
-          <ComponentePractica />
+          <ComponentePractica nivel={nivel} calificacion={calificacion} />
         ) : pregunta ? (
           <PreguntaForm {...pregunta} callback={agregarRespuesta} />
         ) : (

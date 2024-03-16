@@ -132,7 +132,10 @@ const nivel2: Nivel = {
 };
 
 interface Practicas {
-  [keys: number]: FunctionComponent;
+  [keys: number]: FunctionComponent<{
+    nivel: Nivel;
+    calificacion?: Calificacion;
+  }>;
 }
 
 export const practicas: Practicas = {
