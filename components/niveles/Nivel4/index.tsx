@@ -12,19 +12,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {ParamList} from '../../../App';
 
-interface INivel1 {
+interface INivel4 {
   nivel: Nivel;
   calificacion?: Calificacion;
 }
 
-const Nivel1: FunctionComponent<INivel1> = ({nivel, calificacion}) => {
+const Nivel4: FunctionComponent<INivel4> = ({nivel, calificacion}) => {
   const {descripcionPractica} = nivel;
   useSocket();
   const {state, dispatch} = useContext(GlobalContext);
   const navigation = useNavigation<NavigationProp<ParamList>>();
   const {data, movimiento} = state;
 
-  const RESPUESTA_CORRECTA = [0, 180, 90, 90, 180, 180];
+  const RESPUESTAS_CORRECTAS = [
+    [0, 180, 90, 90, 180, 180],
+    [20, 20, 20, 20, 20, 20],
+  ]; // Calcular
 
   const motores = [
     data?.pos_motor0 || 0,
@@ -63,13 +66,18 @@ const Nivel1: FunctionComponent<INivel1> = ({nivel, calificacion}) => {
   };
 
   const enviarRespuesta = async () => {
-    const incorrecto = motores.some(
-      (pos, i) => Math.abs(pos - RESPUESTA_CORRECTA[i]) > 6 && i !== 0,
-    );
+    const hayCorrecto = RESPUESTAS_CORRECTAS.find((r, j) => {
+      const incorrecto = motores.some((pos, i) => {
+        console.log({pos, r: r[i], i, j, diff: Math.abs(pos - r[i])});
+        return Math.abs(pos - r[i]) > 6;
+      });
+      console.log('INCORRECTO', j, incorrecto);
+      return !incorrecto;
+    });
 
-    const calificacionPractica = incorrecto
-      ? MIN_CALIFICACION_APROBADA - 10
-      : 100;
+    const calificacionPractica = hayCorrecto
+      ? 100
+      : MIN_CALIFICACION_APROBADA - 10;
 
     const aprobado = calificacionPractica >= MIN_CALIFICACION_APROBADA;
 
@@ -147,42 +155,92 @@ const Nivel1: FunctionComponent<INivel1> = ({nivel, calificacion}) => {
     <>
       <View style={s.textWrapper}>
         <Text style={s.text}>
-          En este nivel inicial, tu objetivo será guiar al brazo robótico hacia
-          una posición específica, donde su garra esté orientada verticalmente
-          hacia el cielo, manteniéndose completamente recta y abierta, tal como
-          se ilustra en las figuras.
+          El objetivo de este ejercicio es calcular el conjunto de ángulos de
+          articulación para un vector de posición dado del efector final (garra)
+          (x,y,z,𝜓,𝜑) del brazo robótico. Debes aplicar el método de cinemática
+          inversa con las ecuaciones proporcionadas. Recuerda que no hay una
+          única respuesta correcta.
         </Text>
 
         <Text style={s.text}>
-          Esta configuración inicial no solo sirve como tu primer desafío, sino
-          que también te brinda la oportunidad de familiarizarte con los
-          controles y la gama de movimientos posibles del brazo robótico. Te
-          animamos a explorar y experimentar con diferentes movimientos antes de
-          fijar tu respuesta final.
+          <Text style={s.boldtext}>Vector (x,y,z,𝜓,𝜑): </Text>
+          (170; 40; 100; 1; -0.5)
         </Text>
-        {/* <TouchableOpacity style={s.button} onPress={() => {}}>
-        <Text style={s.buttonText}>Iniciar</Text>
-      </TouchableOpacity> */}
 
-        <Text style={s.titulo}>Figuras</Text>
+        <Text style={s.titulo2}>
+          Vector del centro de muñeca en relación a la posición del efector
+          final por desacoplo cinemático
+        </Text>
 
         <View style={s.imageWrapper}>
           <Image
             style={{
-              width: 175,
+              width: 250,
+              height: 80,
+              marginBottom: 40,
+            }}
+            source={require(`../../../assets/nivel4-1.png`)}
+            resizeMode="contain"
+          />
+        </View>
+
+        <Text style={s.titulo2}>
+          Parámetros q1, q2 y q3 en función del vector posición de la muñeca
+        </Text>
+
+        <View style={s.imageWrapper}>
+          <Image
+            style={{
+              width: '100%',
+              height: 200,
+              marginBottom: 40,
+            }}
+            source={require(`../../../assets/nivel4-2.png`)}
+            resizeMode="contain"
+          />
+        </View>
+        <Text style={s.titulo2}>
+          Relación de matrices para la obtención de los parámetros q4 y q5
+        </Text>
+
+        <View style={s.imageWrapper}>
+          <Image
+            style={{
+              width: 370,
               height: 250,
               marginBottom: 40,
             }}
-            source={require(`../../../assets/nivel1-1.png`)}
+            source={require(`../../../assets/nivel4-3.png`)}
             resizeMode="contain"
           />
+        </View>
+
+        <Text style={s.titulo2}>
+          Parámetros q4 y q5 en función de parámetros de la matriz de rotación
+        </Text>
+
+        <View style={s.imageWrapper}>
           <Image
             style={{
-              width: 220,
-              height: 500,
+              width: 200,
+              height: 80,
               marginBottom: 40,
             }}
-            source={require(`../../../assets/nivel1-2.png`)}
+            source={require(`../../../assets/nivel4-4.png`)}
+            resizeMode="contain"
+          />
+        </View>
+
+        <Text style={s.titulo2}>Leyenda</Text>
+
+        <View style={s.imageWrapper}>
+          <Image
+            style={{
+              width: 400,
+              height: 180,
+              marginBottom: 40,
+            }}
+            source={require(`../../../assets/nivel4-5.png`)}
             resizeMode="contain"
           />
         </View>
@@ -221,4 +279,4 @@ const Nivel1: FunctionComponent<INivel1> = ({nivel, calificacion}) => {
   );
 };
 
-export default Nivel1;
+export default Nivel4;
