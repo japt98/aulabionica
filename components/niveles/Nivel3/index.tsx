@@ -79,11 +79,11 @@ const Nivel3: FunctionComponent<INivel3> = ({nivel, calificacion}) => {
     if (!data) return;
 
     const incorrecto =
-      Math.abs(x - RESPUESTA_CORRECTA.x) > 3 ||
-      Math.abs(y - RESPUESTA_CORRECTA.y) > 3 ||
-      Math.abs(z - RESPUESTA_CORRECTA.z) > 3 ||
-      Math.abs(psi - RESPUESTA_CORRECTA.psi) > 3 ||
-      Math.abs(phi - RESPUESTA_CORRECTA.phi) > 3;
+      Math.abs(x - RESPUESTA_CORRECTA.x) > 0.02 ||
+      Math.abs(y - RESPUESTA_CORRECTA.y) > 0.02 ||
+      Math.abs(z - RESPUESTA_CORRECTA.z) > 0.02 ||
+      Math.abs(psi - RESPUESTA_CORRECTA.psi) > 0.02 ||
+      Math.abs(phi - RESPUESTA_CORRECTA.phi) > 0.02;
 
     const calificacionPractica = incorrecto
       ? MIN_CALIFICACION_APROBADA - 10
@@ -215,7 +215,8 @@ const Nivel3: FunctionComponent<INivel3> = ({nivel, calificacion}) => {
           <Text style={s.boldtext}>Ecuaciones de Transformación: </Text>
           Utiliza las ecuaciones de transformación suministradas para determinar
           la posición del efector final en el espacio tridimensional y su
-          orientación.
+          orientación. Ten en cuenta que los valores de 𝜓 y 𝜑 se requieren en
+          radianes.
         </Text>
 
         <Text style={s.titulo}>

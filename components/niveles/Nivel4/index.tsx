@@ -25,9 +25,9 @@ const Nivel4: FunctionComponent<INivel4> = ({nivel, calificacion}) => {
   const {data, movimiento} = state;
 
   const RESPUESTAS_CORRECTAS = [
-    [0, 180, 90, 90, 180, 180],
-    [20, 20, 20, 20, 20, 20],
-  ]; // Calcular
+    [54, 126, 102, 60, 80], // Faltan q4 y q5
+    [54, 134, 78, 60, 80], // Faltan q4 y q5
+  ];
 
   const motores = [
     data?.pos_motor0 || 0,
@@ -67,7 +67,7 @@ const Nivel4: FunctionComponent<INivel4> = ({nivel, calificacion}) => {
 
   const enviarRespuesta = async () => {
     const hayCorrecto = RESPUESTAS_CORRECTAS.find((r, j) => {
-      const incorrecto = motores.some((pos, i) => {
+      const incorrecto = motores.slice(0, 5).some((pos, i) => {
         console.log({pos, r: r[i], i, j, diff: Math.abs(pos - r[i])});
         return Math.abs(pos - r[i]) > 6;
       });
@@ -159,12 +159,14 @@ const Nivel4: FunctionComponent<INivel4> = ({nivel, calificacion}) => {
           articulación para un vector de posición dado del efector final (garra)
           (x,y,z,𝜓,𝜑) del brazo robótico. Debes aplicar el método de cinemática
           inversa con las ecuaciones proporcionadas. Recuerda que no hay una
-          única respuesta correcta.
+          única respuesta correcta. Ten en cuenta que los valores de 𝜓 y 𝜑
+          proporcionados están en radianes pero las coordernadas articulares se
+          maneja en grados.
         </Text>
 
         <Text style={s.text}>
           <Text style={s.boldtext}>Vector (x,y,z,𝜓,𝜑): </Text>
-          (170; 40; 100; 1; -0.5)
+          (73; 5; 66; 0.25; -0.1)
         </Text>
 
         <Text style={s.titulo2}>
