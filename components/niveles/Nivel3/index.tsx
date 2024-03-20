@@ -25,7 +25,6 @@ interface INivel3 {
 }
 
 const Nivel3: FunctionComponent<INivel3> = ({nivel, calificacion}) => {
-  const {descripcionPractica} = nivel;
   useSocket();
   const {state, dispatch} = useContext(GlobalContext);
   const navigation = useNavigation<NavigationProp<ParamList>>();

@@ -18,16 +18,12 @@ interface INivel4 {
 }
 
 const Nivel4: FunctionComponent<INivel4> = ({nivel, calificacion}) => {
-  const {descripcionPractica} = nivel;
   useSocket();
   const {state, dispatch} = useContext(GlobalContext);
   const navigation = useNavigation<NavigationProp<ParamList>>();
   const {data, movimiento} = state;
 
-  const RESPUESTAS_CORRECTAS = [
-    [54, 126, 102, 60, 80], // Faltan q4 y q5
-    [54, 134, 78, 60, 80], // Faltan q4 y q5
-  ];
+  const RESPUESTA_CORRECTA = [78, 54, 136, 18, 174, 0];
 
   const motores = [
     data?.pos_motor0 || 0,
@@ -66,18 +62,13 @@ const Nivel4: FunctionComponent<INivel4> = ({nivel, calificacion}) => {
   };
 
   const enviarRespuesta = async () => {
-    const hayCorrecto = RESPUESTAS_CORRECTAS.find((r, j) => {
-      const incorrecto = motores.slice(0, 5).some((pos, i) => {
-        console.log({pos, r: r[i], i, j, diff: Math.abs(pos - r[i])});
-        return Math.abs(pos - r[i]) > 6;
-      });
-      console.log('INCORRECTO', j, incorrecto);
-      return !incorrecto;
-    });
+    const incorrecto = motores.some(
+      (pos, i) => Math.abs(pos - RESPUESTA_CORRECTA[i]) > 6 && i !== 5,
+    );
 
-    const calificacionPractica = hayCorrecto
-      ? 100
-      : MIN_CALIFICACION_APROBADA - 10;
+    const calificacionPractica = incorrecto
+      ? MIN_CALIFICACION_APROBADA - 10
+      : 100;
 
     const aprobado = calificacionPractica >= MIN_CALIFICACION_APROBADA;
 
@@ -158,15 +149,14 @@ const Nivel4: FunctionComponent<INivel4> = ({nivel, calificacion}) => {
           El objetivo de este ejercicio es calcular el conjunto de ángulos de
           articulación para un vector de posición dado del efector final (garra)
           (x,y,z,𝜓,𝜑) del brazo robótico. Debes aplicar el método de cinemática
-          inversa con las ecuaciones proporcionadas. Recuerda que no hay una
-          única respuesta correcta. Ten en cuenta que los valores de 𝜓 y 𝜑
-          proporcionados están en radianes pero las coordernadas articulares se
-          maneja en grados.
+          inversa con las ecuaciones proporcionadas. Ten en cuenta que los
+          valores de 𝜓 y 𝜑 proporcionados están en radianes pero las
+          coordernadas articulares se maneja en grados.
         </Text>
 
         <Text style={s.text}>
           <Text style={s.boldtext}>Vector (x,y,z,𝜓,𝜑): </Text>
-          (73; 5; 66; 0.25; -0.1)
+          (73; 5; 260; 0.45; -0.1)
         </Text>
 
         <Text style={s.titulo2}>

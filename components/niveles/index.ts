@@ -41,7 +41,7 @@ const nivel1: Nivel = {
     'El brazo robótico debe completar el movimiento asignado para llegar al punto destino.',
   conceptosClave: 'Actuadores, sensores, programación básica, seguridad.',
   descripcionPractica:
-    'Dada una imagen de posición del robot, el estudiante deberá llevarlo a las posiciones correspondientes y finalmente el programa validará que las coordenadas articulares fueron colocadas de forma correcta, dentro de un rango con una tolerancia de ±3°',
+    'Dada una imagen de posición del robot, el estudiante deberá llevarlo a las posiciones correspondientes y finalmente el programa validará que las coordenadas articulares fueron colocadas de forma correcta, dentro de un rango con una tolerancia de ±3°. La respuesta esperada es (q2, q3, q4, q5, q6) = (90°, 45°, 45°, 90°, 90°), q1 es indiferente para este caso.',
   teoria: [
     {
       pregunta: '¿Qué es un actuador en robótica?',
@@ -118,7 +118,7 @@ const nivel2: Nivel = {
   conceptosClave:
     'Interpretación de datos de acelerómetros, control de movimiento basado en retroalimentación sensorial, algoritmos de decisión basados en entradas sensoriales',
   descripcionPractica:
-    'Se le solicitará al estudiante llevar los eslabones del robot a un ángulo relativo con el centro de masa (la idea es que mueva el robot y vea cómo varían los valores de los sensores). Luego de esto se validarán los valores finales de los sensores.  ',
+    'Se le solicitará al estudiante llevar los eslabones del robot a un ángulo relativo con el centro de masa (la idea es que mueva el robot y vea cómo varían los valores de los sensores). Luego de esto se validarán los valores finales de los sensores. Para validar la respuesta, el sensor de inclinación 1 debe esta en 45° y el sensor de inclinación 2 a 0° al momento de enviar la respuesta.',
   teoria: [
     {
       pregunta: '¿Para qué se utilizan los acelerómetros en la robótica?',
@@ -171,7 +171,7 @@ const nivel3: Nivel = {
   titulo: 'Cinemática Directa',
   descripcion: 'Aplicación de la cinemática directa',
   descripcionPractica:
-    'Se le proporcionará al estudiante las matrices de transformación homogéneas y fórmulas de ángulos de rotación de Euler previamente calculadas y se le pedirá que, de acuerdo a cierto conjunto de valores articulares, calcule la coordenada del efector final del robot (x,y,z,𝜓,𝜑).',
+    'Se le proporcionará al estudiante las matrices de transformación homogéneas y fórmulas de ángulos de rotación de Euler previamente calculadas y se le pedirá que, de acuerdo a cierto conjunto de valores articulares, calcule la coordenada del efector final del robot (x,y,z,𝜓,𝜑). La respuesta correcta es (x,y,z,𝜓,𝜑) = (184.78, 81.03, 126.62, 2.34, -0.16).',
   conceptosClave:
     'Cinemática directa, transformaciones geométricas, matrices de rotación y traslación, sistema de coordenadas del efector final.',
   objetivo:
@@ -230,7 +230,7 @@ const nivel4: Nivel = {
   titulo: 'Cinemática Inversa',
   descripcion: 'Aplicación de la cinemática inversa',
   descripcionPractica:
-    'Se le pedirá al estudiante que halle los valores articulares usando el método de cinemática inversa. Las ecuaciones necesarias se le suministrarán y se le dará, además el vector de posición/orientación inicial.',
+    'Se le pedirá al estudiante que halle los valores articulares usando el método de cinemática inversa. Las ecuaciones necesarias se le suministrarán y se le dará, además el vector de posición/orientación inicial. La respuesta esperada es (q1, q2, q3, q4, q5) = (39°, 27°, 68°, 9°, 87°), q6 es indiferente para este caso. No hay diferentes soluciones puesto que el resto no son posibles.',
   conceptosClave:
     'Algoritmos de cinemática inversa, soluciones múltiples y singulares, espacio de trabajo del robot, desacoplo cinemático.',
   objetivo:
