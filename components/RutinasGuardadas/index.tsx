@@ -6,6 +6,7 @@ import {GlobalContext} from '../../context/global';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Rutina} from '../../context/types';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
+import ModalForm from './modal';
 
 interface IRutinasGuardadas {
   navigation: NavigationProp<ParamListBase, 'rutinas-guardadas'>;
@@ -15,14 +16,29 @@ const RutinasGuardadas: FunctionComponent<IRutinasGuardadas> = ({
   navigation,
 }) => {
   const {state, dispatch} = useContext(GlobalContext);
+  const [modal, setModal] = useState<Rutina | null>(null);
   const {rutinas} = state;
 
   const truncName = (str: string) =>
     str.length > 18 ? str.slice(0, 15) + '...' : str;
 
+  function replicateAndConcatArray<T>(originalArray: T[], times: number): T[] {
+    return Array.prototype.concat.apply(
+      [],
+      Array.from({length: times}, () => originalArray),
+    );
+  }
+
   const ejecutarRutina = async (rutina: Rutina) => {
     await AsyncStorage.setItem('exec-rutina', JSON.stringify(rutina));
     navigation.navigate('ejecutar-rutina');
+  };
+
+  const ejecutarRutinasNVeces = (n: number, rutina: Rutina) => {
+    ejecutarRutina({
+      nombre: rutina.nombre,
+      operaciones: replicateAndConcatArray(rutina.operaciones, n),
+    });
   };
 
   const eliminarRutina = async (nombre: string) => {
@@ -65,7 +81,7 @@ const RutinasGuardadas: FunctionComponent<IRutinasGuardadas> = ({
           <TouchableOpacity
             style={s.rutinaContainer}
             key={`Rutina-${i}`}
-            onPress={() => ejecutarRutina({nombre, operaciones})}
+            onPress={() => setModal({nombre, operaciones})}
             onLongPress={() => handleBorrar(nombre)}>
             <View style={s.rutinaWrapper}>
               <Text style={s.nombre}>{truncName(nombre)}</Text>
@@ -86,6 +102,11 @@ const RutinasGuardadas: FunctionComponent<IRutinasGuardadas> = ({
         ))}
         <Text style={s.info}>Mantenga presionado para borrar un rutina</Text>
       </ScrollView>
+      <ModalForm
+        ejecutarRutinasNVeces={ejecutarRutinasNVeces}
+        rutina={modal}
+        cancelar={() => setModal(null)}
+      />
     </Layout>
   );
 };
