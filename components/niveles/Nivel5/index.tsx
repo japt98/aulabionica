@@ -1,16 +1,7 @@
-import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
-import {Calificacion, MIN_CALIFICACION_APROBADA, Nivel} from '..';
+import React, {FunctionComponent} from 'react';
+import {Text, View} from 'react-native';
+import {Calificacion, Nivel} from '..';
 import s from './styles';
-import LoadingModal from '../../ControlAdmin/loading';
-import useSocket from '../../../hooks/useSocket';
-import {GlobalContext} from '../../../context/global';
-import {Movimiento, Operacion} from '../../../context/types';
-import Status from '../../shared/status';
-import Motor from '../../ControlAdmin/motor';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {ParamList} from '../../../App';
 import {ILink} from '../../../types';
 import SubMenu from '../../SubMenu';
 

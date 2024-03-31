@@ -11,6 +11,7 @@ import Motor from './motor';
 import ModalForm from './modal';
 import LoadingModal from './loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {sleep} from '../../helpers';
 
 const DEFAULT_RUTINA_NAME = 'Rutina Nueva';
 
@@ -21,7 +22,7 @@ interface INuevaRutina {
 const NuevaRutina: FunctionComponent<INuevaRutina> = ({navigation}) => {
   useSocket();
   const {state, dispatch} = useContext(GlobalContext);
-  const {data, movimiento, rutinas} = state;
+  const {data, movimiento, rutinas, conectado} = state;
 
   const motores = [
     data?.pos_motor0 || 0,
@@ -120,6 +121,17 @@ const NuevaRutina: FunctionComponent<INuevaRutina> = ({navigation}) => {
       {cancelable: true},
     );
   };
+
+  useEffect(() => {
+    const handleConexion = async () => {
+      if (!conectado) {
+        await sleep(1.5);
+        const goBack = navigation.canGoBack();
+        goBack ? navigation.goBack() : navigation.navigate('menu');
+      }
+    };
+    handleConexion();
+  }, []);
 
   useEffect(() => {
     // TODO: Encontrar el error al moverse

@@ -7,6 +7,7 @@ import Layout from '../Layout';
 import * as rutinas from './rutinas';
 import {GlobalContext} from '../../context/global';
 import {TIEMPO_DE_LA_SESION} from '../LoginProfesor/coordenadas';
+import RNRestart from 'react-native-restart';
 import {Rutina} from '../../context/types';
 
 interface IMenuPrincipal {
@@ -20,7 +21,7 @@ const MenuPrincipal: FunctionComponent<IMenuPrincipal> = ({navigation}) => {
 
   const toggle = () => {
     if (!conectado) {
-      navigation.navigate('menu-conexion');
+      RNRestart.restart();
     }
   };
 
