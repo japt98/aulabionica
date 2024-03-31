@@ -11,6 +11,7 @@ import Motor from '../../ControlAdmin/motor';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {ParamList} from '../../../App';
+import {sleep} from '../../../helpers';
 
 interface INivel1 {
   nivel: Nivel;
@@ -21,7 +22,7 @@ const Nivel1: FunctionComponent<INivel1> = ({nivel, calificacion}) => {
   useSocket();
   const {state, dispatch} = useContext(GlobalContext);
   const navigation = useNavigation<NavigationProp<ParamList>>();
-  const {data, movimiento} = state;
+  const {data, movimiento, conectado} = state;
 
   const RESPUESTA_CORRECTA = [0, 180, 90, 90, 180, 180];
 
@@ -33,6 +34,17 @@ const Nivel1: FunctionComponent<INivel1> = ({nivel, calificacion}) => {
     data?.pos_motor4 || 0,
     data?.pos_motor5 || 0,
   ];
+
+  useEffect(() => {
+    const handleConexion = async () => {
+      if (!conectado) {
+        await sleep(1.5);
+        const goBack = navigation.canGoBack();
+        goBack ? navigation.goBack() : navigation.navigate('menu');
+      }
+    };
+    handleConexion();
+  }, []);
 
   const [operacion, setOperacion] = useState<Operacion>(
     motores.map(

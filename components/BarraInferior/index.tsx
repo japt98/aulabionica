@@ -15,6 +15,7 @@ import {
 import s from './styles';
 import {GlobalContext} from '../../context/global';
 import {ParamList} from '../../App';
+import RNRestart from 'react-native-restart';
 
 const IconWithLabel: FunctionComponent<{
   icon: ImageSourcePropType;
@@ -42,7 +43,7 @@ const BarraInferior: FunctionComponent = () => {
       // setConectado(false); // TODO: solo por ahora
     } else {
       navigation.navigate('menu-conexion');
-      // setConectado(true); // TODO: solo por ahora
+      RNRestart.restart();
     }
   };
 
